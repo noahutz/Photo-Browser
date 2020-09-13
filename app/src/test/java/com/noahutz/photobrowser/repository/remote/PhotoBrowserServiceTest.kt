@@ -1,4 +1,4 @@
-package com.noahutz.photobrowser.api
+package com.noahutz.photobrowser.repository.remote
 
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockWebServer
