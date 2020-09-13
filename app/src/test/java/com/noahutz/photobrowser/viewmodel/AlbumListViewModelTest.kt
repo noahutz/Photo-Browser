@@ -10,7 +10,6 @@ import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.amshove.kluent.mock
 import org.junit.Rule
 import org.junit.Test
 
