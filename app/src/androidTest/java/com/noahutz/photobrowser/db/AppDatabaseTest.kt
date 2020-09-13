@@ -1,13 +1,13 @@
-package com.noahutz.photobrowser.repository.local
+package com.noahutz.photobrowser.db
 
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.noahutz.photobrowser.repository.local.dao.AlbumDao
-import com.noahutz.photobrowser.repository.local.dao.PhotoDao
-import com.noahutz.photobrowser.repository.local.entity.Album
-import com.noahutz.photobrowser.repository.local.entity.Photo
+import com.noahutz.photobrowser.db.dao.AlbumDao
+import com.noahutz.photobrowser.db.dao.PhotoDao
+import com.noahutz.photobrowser.db.entity.AlbumEntity
+import com.noahutz.photobrowser.db.entity.PhotoEntity
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -36,7 +36,7 @@ class AppDatabaseTest {
 
     @Test
     fun saveAndLoadAlbum() {
-        val album = Album(id = 1, title = "Title", userId = 1)
+        val album = AlbumEntity(id = 1, title = "Title", userId = 1)
         albumDao.insertAll(album)
 
         val result = albumDao.findBy(1)
@@ -46,7 +46,7 @@ class AppDatabaseTest {
 
     @Test
     fun saveAndLoadAllAlbums() {
-        val albums = (1..10).map { id -> Album(id = id, title = "Title $id", userId = 1) }
+        val albums = (1..10).map { id -> AlbumEntity(id = id, title = "Title $id", userId = 1) }
         albumDao.insertAll(*albums.toTypedArray())
 
         val result = albumDao.findAll()
@@ -64,7 +64,7 @@ class AppDatabaseTest {
 
     @Test
     fun saveAndLoadPhoto() {
-        val album = Album(id = 1, title = "Title", userId = 1)
+        val album = AlbumEntity(id = 1, title = "Title", userId = 1)
         albumDao.insertAll(album)
 
         val result = albumDao.findBy(1)
@@ -75,7 +75,7 @@ class AppDatabaseTest {
     @Test
     fun saveAndLoadAllPhotos() {
         val photos = (1..10).map { id ->
-            Photo(
+            PhotoEntity(
                 id = id,
                 albumId = 1,
                 thumbnailUrl = "some url",
