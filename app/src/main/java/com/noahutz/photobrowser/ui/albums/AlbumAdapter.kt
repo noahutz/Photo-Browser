@@ -33,9 +33,7 @@ class AlbumAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: Album) {
-            itemView.textViewId.text = item.id.toString()
             itemView.textViewTitle.text = item.title
-            itemView.textViewUserId.text = item.userId.toString()
             itemView.setOnClickListener { itemClickListener(item) }
         }
     }

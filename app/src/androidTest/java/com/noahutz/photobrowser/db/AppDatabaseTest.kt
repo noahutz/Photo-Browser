@@ -76,6 +76,18 @@ class AppDatabaseTest {
     }
 
     @Test
+    fun overwriteAndLoadPhoto() = runBlocking {
+        val album = AlbumEntity(id = 1, title = "Title", userId = 1)
+        val newAlbum = AlbumEntity(id = 1, title = "New Title", userId = 1)
+        albumDao.insertAlbum(album)
+        albumDao.insertAlbum(newAlbum)
+
+        val result = albumDao.getAlbum(1)
+
+        assertEquals(result, newAlbum)
+    }
+
+    @Test
     fun saveAndLoadAllPhotos() = runBlocking {
         val albumId = 1
         val photos = (1..10).map { id ->

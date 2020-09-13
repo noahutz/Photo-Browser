@@ -4,8 +4,9 @@ import com.noahutz.photobrowser.api.PhotoBrowserService
 import com.noahutz.photobrowser.db.dao.AlbumDao
 import com.noahutz.photobrowser.db.entity.AlbumEntity
 import com.noahutz.photobrowser.model.Album
+import javax.inject.Inject
 
-class AlbumRepository(
+class AlbumRepository @Inject constructor(
     private val apiService: PhotoBrowserService,
     private val albumDao: AlbumDao,
 ) {

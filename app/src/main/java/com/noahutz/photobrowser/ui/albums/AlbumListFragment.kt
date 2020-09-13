@@ -5,12 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.noahutz.photobrowser.R
-import com.noahutz.photobrowser.model.Album
+import com.noahutz.photobrowser.viewmodel.AlbumListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_list_album.*
 
+@AndroidEntryPoint
 class AlbumListFragment : Fragment() {
+    private val viewModel: AlbumListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,13 +27,16 @@ class AlbumListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val layoutManager = LinearLayoutManager(context)
         val adapter = AlbumAdapter {
 
         }
-        recyclerViewAlbums.setHasFixedSize(true)
-        recyclerViewAlbums.layoutManager = LinearLayoutManager(context)
+        recyclerViewAlbums.layoutManager = layoutManager
         recyclerViewAlbums.adapter = adapter
+        recyclerViewAlbums.addItemDecoration(
+            DividerItemDecoration(context, layoutManager.orientation)
+        )
 
-        adapter.setItems((0..10).map { Album(id = it, title = "Title $it", userId = 1) })
+        viewModel.getAlbums().observe(viewLifecycleOwner) { albums -> adapter.setItems(albums) }
     }
 }
