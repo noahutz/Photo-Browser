@@ -4,9 +4,12 @@ import com.noahutz.photobrowser.api.PhotoBrowserService
 import com.noahutz.photobrowser.db.dao.PhotoDao
 import com.noahutz.photobrowser.db.entity.PhotoEntity
 import com.noahutz.photobrowser.model.Photo
+import javax.inject.Inject
 
-class PhotoRepository(private val apiService: PhotoBrowserService, private val photoDao: PhotoDao) {
-
+class PhotoRepository @Inject constructor(
+    private val apiService: PhotoBrowserService,
+    private val photoDao: PhotoDao
+) {
     suspend fun getPhotos(albumId: Int): List<Photo> {
         apiService.getPhotos(albumId).forEach { photo ->
             photoDao.insertPhoto(

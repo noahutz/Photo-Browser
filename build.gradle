@@ -12,6 +12,7 @@ buildscript {
         hilt_version = "2.28.3-alpha"
         hilt_viewmodel_version = "1.0.0-alpha02"
         room_version = "2.2.5"
+        picasso_version = "2.71828"
         livedata_ktx_version = "2.2.0"
         mockwebserver_version = "4.9.0"
         kluent_version = "1.61"

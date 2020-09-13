@@ -66,25 +66,39 @@ class AppDatabaseTest {
 
 
     @Test
-    fun saveAndLoadPhoto() = runBlocking {
-        val album = AlbumEntity(id = 1, title = "Title", userId = 1)
-        albumDao.insertAlbum(album)
+    fun saveAndLoadPhotos() = runBlocking {
+        val albumId = 1
+        val photo = PhotoEntity(
+            id = 1,
+            title = "Title",
+            albumId = albumId,
+            thumbnailUrl = "Thumbnail",
+            url = "Url"
+        )
+        photoDao.insertPhoto(photo)
 
-        val result = albumDao.getAlbum(1)
+        val result = photoDao.getPhotos(albumId)
 
-        assertEquals(result, album)
+        assertEquals(result, listOf(photo))
     }
 
     @Test
-    fun overwriteAndLoadPhoto() = runBlocking {
-        val album = AlbumEntity(id = 1, title = "Title", userId = 1)
-        val newAlbum = AlbumEntity(id = 1, title = "New Title", userId = 1)
-        albumDao.insertAlbum(album)
-        albumDao.insertAlbum(newAlbum)
+    fun overwriteAndLoadPhotos() = runBlocking {
+        val albumId = 1
+        val photo = PhotoEntity(
+            id = 1,
+            title = "Title",
+            albumId = albumId,
+            thumbnailUrl = "Thumbnail",
+            url = "Url"
+        )
+        val newPhoto = photo.copy(title = "New Title")
+        photoDao.insertPhoto(photo)
+        photoDao.insertPhoto(newPhoto)
 
-        val result = albumDao.getAlbum(1)
+        val result = photoDao.getPhotos(albumId)
 
-        assertEquals(result, newAlbum)
+        assertEquals(result, listOf(newPhoto))
     }
 
     @Test
