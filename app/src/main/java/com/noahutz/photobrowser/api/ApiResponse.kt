@@ -1,4 +1,4 @@
-package com.noahutz.photobrowser.db.api
+package com.noahutz.photobrowser.api
 
 data class AlbumResponse(val id: Int, val title: String, val userId: Int)
 

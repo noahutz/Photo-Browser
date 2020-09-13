@@ -1,4 +1,4 @@
-package com.noahutz.photobrowser.db.api
+package com.noahutz.photobrowser.api
 
 import retrofit2.http.GET
 import retrofit2.http.Path

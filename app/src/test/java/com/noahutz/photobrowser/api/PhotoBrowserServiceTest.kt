@@ -1,6 +1,5 @@
 package com.noahutz.photobrowser.api
 
-import com.noahutz.photobrowser.db.api.PhotoBrowserService
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockWebServer
 import org.amshove.kluent.shouldBe
