@@ -9,7 +9,7 @@ class AlbumRepository(
     private val apiService: PhotoBrowserService,
     private val albumDao: AlbumDao,
 ) {
-    suspend fun loadAlbums(): List<Album> {
+    suspend fun getAlbums(): List<Album> {
         apiService.getAlbums().forEach { album ->
             albumDao.insertAlbum(
                 album = AlbumEntity(

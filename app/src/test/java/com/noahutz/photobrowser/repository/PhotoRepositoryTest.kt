@@ -28,7 +28,7 @@ class PhotoRepositoryTest {
             Photo(
                 id = id,
                 albumId = albumId,
-                thumbnailUrl = "some thumbnail url $id",
+                thumbnailUrl = "Thumbnail url $id",
                 title = "Title $id",
                 url = "some url $id"
             )
@@ -54,7 +54,7 @@ class PhotoRepositoryTest {
         coEvery { apiService.getPhotos(albumId) } returns serviceList
         coEvery { photoDao.getPhotos(albumId) } returns databaseList
 
-        val result = runBlocking { repository.loadPhotos(albumId) }
+        val result = runBlocking { repository.getPhotos(albumId) }
 
         result shouldContainAll photos
         databaseList.forEach { photo ->

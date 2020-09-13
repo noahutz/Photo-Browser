@@ -41,7 +41,7 @@ class AlbumRepositoryTest {
         coEvery { apiService.getAlbums() } returns serviceList
         coEvery { albumDao.getAlbums() } returns databaseList
 
-        val result = runBlocking { repository.loadAlbums() }
+        val result = runBlocking { repository.getAlbums() }
 
         result shouldContainAll albums
         databaseList.forEach { album ->

@@ -7,7 +7,7 @@ import com.noahutz.photobrowser.model.Photo
 
 class PhotoRepository(private val apiService: PhotoBrowserService, private val photoDao: PhotoDao) {
 
-    suspend fun loadPhotos(albumId: Int): List<Photo> {
+    suspend fun getPhotos(albumId: Int): List<Photo> {
         apiService.getPhotos(albumId).forEach { photo ->
             photoDao.insertPhoto(
                 photo = PhotoEntity(

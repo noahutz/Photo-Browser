@@ -8,6 +8,6 @@ import com.noahutz.photobrowser.repository.AlbumRepository
 
 class AlbumListViewModel(private val repository: AlbumRepository) : ViewModel() {
     fun getAlbums(): LiveData<List<Album>> = liveData {
-        emit(repository.loadAlbums())
+        emit(repository.getAlbums())
     }
 }
