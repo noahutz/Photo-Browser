@@ -8,11 +8,11 @@ import com.noahutz.photobrowser.db.entity.AlbumEntity
 @Dao
 interface AlbumDao {
     @Query("SELECT * FROM album")
-    suspend fun findAll(): List<AlbumEntity>
+    suspend fun getAlbums(): List<AlbumEntity>
 
     @Query("SELECT * FROM album WHERE id = :id")
-    suspend fun findBy(id: Int): AlbumEntity
+    suspend fun getAlbum(id: Int): AlbumEntity
 
     @Insert
-    suspend fun insertAll(vararg albumEntity: AlbumEntity)
+    suspend fun insertAlbum(album: AlbumEntity)
 }

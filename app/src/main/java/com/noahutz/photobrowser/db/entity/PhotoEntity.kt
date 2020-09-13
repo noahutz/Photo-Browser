@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "photo")
 data class PhotoEntity(
     @PrimaryKey val id: Int,
-    @ColumnInfo(name = "album_id") val albumId: Int?,
-    @ColumnInfo(name = "thumbnail_url") val thumbnailUrl: String?,
-    @ColumnInfo(name = "title") val title: String?,
-    @ColumnInfo(name = "url") val url: String?
+    @ColumnInfo(name = "album_id") val albumId: Int,
+    @ColumnInfo(name = "thumbnail_url") val thumbnailUrl: String,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "url") val url: String
 )

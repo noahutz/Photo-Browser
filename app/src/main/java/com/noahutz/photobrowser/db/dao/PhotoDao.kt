@@ -7,12 +7,9 @@ import com.noahutz.photobrowser.db.entity.PhotoEntity
 
 @Dao
 interface PhotoDao {
-    @Query("SELECT * FROM photo")
-    suspend fun findAll(): List<PhotoEntity>
-
-    @Query("SELECT * FROM photo WHERE id = :id")
-    suspend fun findBy(id: Int): PhotoEntity
+    @Query("SELECT * FROM photo WHERE album_id = :albumId")
+    suspend fun getPhotos(albumId: Int): List<PhotoEntity>
 
     @Insert
-    suspend fun insertAll(vararg photoEntity: PhotoEntity)
+    suspend fun insertPhoto(photo: PhotoEntity)
 }

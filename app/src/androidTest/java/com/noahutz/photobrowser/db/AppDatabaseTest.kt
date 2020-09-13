@@ -38,9 +38,9 @@ class AppDatabaseTest {
     @Test
     fun saveAndLoadAlbum() = runBlocking {
         val album = AlbumEntity(id = 1, title = "Title", userId = 1)
-        albumDao.insertAll(album)
+        albumDao.insertAlbum(album)
 
-        val result = albumDao.findBy(1)
+        val result = albumDao.getAlbum(1)
 
         assertEquals(result, album)
     }
@@ -48,16 +48,18 @@ class AppDatabaseTest {
     @Test
     fun saveAndLoadAllAlbums() = runBlocking {
         val albums = (1..10).map { id -> AlbumEntity(id = id, title = "Title $id", userId = 1) }
-        albumDao.insertAll(*albums.toTypedArray())
+        albums.forEach { album ->
+            albumDao.insertAlbum(album)
+        }
 
-        val result = albumDao.findAll()
+        val result = albumDao.getAlbums()
 
         assertEquals(result, albums)
     }
 
     @Test
     fun loadNonExistingAlbum() = runBlocking {
-        val result = albumDao.findBy(5)
+        val result = albumDao.getAlbum(5)
 
         assertNull(result)
     }
@@ -66,34 +68,37 @@ class AppDatabaseTest {
     @Test
     fun saveAndLoadPhoto() = runBlocking {
         val album = AlbumEntity(id = 1, title = "Title", userId = 1)
-        albumDao.insertAll(album)
+        albumDao.insertAlbum(album)
 
-        val result = albumDao.findBy(1)
+        val result = albumDao.getAlbum(1)
 
         assertEquals(result, album)
     }
 
     @Test
     fun saveAndLoadAllPhotos() = runBlocking {
+        val albumId = 1
         val photos = (1..10).map { id ->
             PhotoEntity(
                 id = id,
-                albumId = 1,
+                albumId = albumId,
                 thumbnailUrl = "some url",
                 title = "some title",
                 url = "some url"
             )
         }
-        photoDao.insertAll(*photos.toTypedArray())
+        photos.forEach { photo ->
+            photoDao.insertPhoto(photo)
+        }
 
-        val result = photoDao.findAll()
+        val result = photoDao.getPhotos(albumId)
 
         assertEquals(result, photos)
     }
 
     @Test
     fun loadNonExistingPhoto() = runBlocking {
-        val result = photoDao.findBy(5)
+        val result = photoDao.getPhotos(5)
 
         assertNull(result)
     }
