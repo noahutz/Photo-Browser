@@ -8,6 +8,7 @@ import com.noahutz.photobrowser.db.dao.AlbumDao
 import com.noahutz.photobrowser.db.dao.PhotoDao
 import com.noahutz.photobrowser.db.entity.AlbumEntity
 import com.noahutz.photobrowser.db.entity.PhotoEntity
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -35,7 +36,7 @@ class AppDatabaseTest {
     }
 
     @Test
-    fun saveAndLoadAlbum() {
+    fun saveAndLoadAlbum() = runBlocking {
         val album = AlbumEntity(id = 1, title = "Title", userId = 1)
         albumDao.insertAll(album)
 
@@ -45,7 +46,7 @@ class AppDatabaseTest {
     }
 
     @Test
-    fun saveAndLoadAllAlbums() {
+    fun saveAndLoadAllAlbums() = runBlocking {
         val albums = (1..10).map { id -> AlbumEntity(id = id, title = "Title $id", userId = 1) }
         albumDao.insertAll(*albums.toTypedArray())
 
@@ -55,7 +56,7 @@ class AppDatabaseTest {
     }
 
     @Test
-    fun loadNonExistingAlbum() {
+    fun loadNonExistingAlbum() = runBlocking {
         val result = albumDao.findBy(5)
 
         assertNull(result)
@@ -63,7 +64,7 @@ class AppDatabaseTest {
 
 
     @Test
-    fun saveAndLoadPhoto() {
+    fun saveAndLoadPhoto() = runBlocking {
         val album = AlbumEntity(id = 1, title = "Title", userId = 1)
         albumDao.insertAll(album)
 
@@ -73,7 +74,7 @@ class AppDatabaseTest {
     }
 
     @Test
-    fun saveAndLoadAllPhotos() {
+    fun saveAndLoadAllPhotos() = runBlocking {
         val photos = (1..10).map { id ->
             PhotoEntity(
                 id = id,
@@ -91,7 +92,7 @@ class AppDatabaseTest {
     }
 
     @Test
-    fun loadNonExistingPhoto() {
+    fun loadNonExistingPhoto() = runBlocking {
         val result = photoDao.findBy(5)
 
         assertNull(result)
