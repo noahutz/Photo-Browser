@@ -18,6 +18,26 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class AppDatabaseTest {
+    companion object {
+        private const val ALBUM_ID = 1
+
+        private val ALBUMS = (1..10).map { id ->
+            AlbumEntity(id = id, title = "Title $id", userId = 1)
+        }
+        private val NEW_ALBUMS = ALBUMS.map { it.copy(title = "New Title ${it.id}") }
+
+        private val PHOTOS = (1..10).map { id ->
+            PhotoEntity(
+                id = id,
+                albumId = ALBUM_ID,
+                thumbnailUrl = "some url",
+                title = "some title",
+                url = "some url"
+            )
+        }
+        private val NEW_PHOTOS = PHOTOS.map { it.copy(title = "New Title ${it.id}") }
+    }
+
     private lateinit var albumDao: AlbumDao
     private lateinit var photoDao: PhotoDao
     private lateinit var db: AppDatabase
@@ -36,26 +56,24 @@ class AppDatabaseTest {
     }
 
     @Test
-    fun saveAndLoadAlbum() = runBlocking {
-        val album = AlbumEntity(id = 1, title = "Title", userId = 1)
-        albumDao.insertAlbum(album)
-
-        val result = albumDao.getAlbum(1)
-
-        assertEquals(result, album)
-    }
-
-    @Test
-    fun saveAndLoadAllAlbums() = runBlocking {
-        val albums = (1..10).map { id -> AlbumEntity(id = id, title = "Title $id", userId = 1) }
-        albums.forEach { album ->
-            albumDao.insertAlbum(album)
-        }
+    fun saveAndLoadAlbums() = runBlocking {
+        albumDao.insertAlbums(ALBUMS)
 
         val result = albumDao.getAlbums()
 
-        assertEquals(result, albums)
+        assertEquals(result, ALBUMS)
     }
+
+    @Test
+    fun overwriteAndLoadAlbums() = runBlocking {
+        albumDao.insertAlbums(ALBUMS)
+        albumDao.insertAlbums(NEW_ALBUMS)
+
+        val result = albumDao.getAlbums()
+
+        assertEquals(result, NEW_ALBUMS)
+    }
+
 
     @Test
     fun loadNonExistingAlbum() = runBlocking {
@@ -64,68 +82,29 @@ class AppDatabaseTest {
         assertNull(result)
     }
 
-
     @Test
     fun saveAndLoadPhotos() = runBlocking {
-        val albumId = 1
-        val photo = PhotoEntity(
-            id = 1,
-            title = "Title",
-            albumId = albumId,
-            thumbnailUrl = "Thumbnail",
-            url = "Url"
-        )
-        photoDao.insertPhoto(photo)
+        photoDao.insertPhotos(PHOTOS)
 
-        val result = photoDao.getPhotos(albumId)
+        val result = photoDao.getPhotos(ALBUM_ID)
 
-        assertEquals(result, listOf(photo))
+        assertEquals(result, PHOTOS)
     }
 
     @Test
     fun overwriteAndLoadPhotos() = runBlocking {
-        val albumId = 1
-        val photo = PhotoEntity(
-            id = 1,
-            title = "Title",
-            albumId = albumId,
-            thumbnailUrl = "Thumbnail",
-            url = "Url"
-        )
-        val newPhoto = photo.copy(title = "New Title")
-        photoDao.insertPhoto(photo)
-        photoDao.insertPhoto(newPhoto)
+        photoDao.insertPhotos(PHOTOS)
+        photoDao.insertPhotos(NEW_PHOTOS)
 
-        val result = photoDao.getPhotos(albumId)
+        val result = photoDao.getPhotos(ALBUM_ID)
 
-        assertEquals(result, listOf(newPhoto))
-    }
-
-    @Test
-    fun saveAndLoadAllPhotos() = runBlocking {
-        val albumId = 1
-        val photos = (1..10).map { id ->
-            PhotoEntity(
-                id = id,
-                albumId = albumId,
-                thumbnailUrl = "some url",
-                title = "some title",
-                url = "some url"
-            )
-        }
-        photos.forEach { photo ->
-            photoDao.insertPhoto(photo)
-        }
-
-        val result = photoDao.getPhotos(albumId)
-
-        assertEquals(result, photos)
+        assertEquals(result, NEW_PHOTOS)
     }
 
     @Test
     fun loadNonExistingPhoto() = runBlocking {
         val result = photoDao.getPhotos(5)
 
-        assertNull(result)
+        assertEquals(result.size, 0)
     }
 }

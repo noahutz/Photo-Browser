@@ -15,5 +15,5 @@ interface AlbumDao {
     suspend fun getAlbum(id: Int): AlbumEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAlbum(album: AlbumEntity)
+    suspend fun insertAlbums(albums: List<AlbumEntity>)
 }
