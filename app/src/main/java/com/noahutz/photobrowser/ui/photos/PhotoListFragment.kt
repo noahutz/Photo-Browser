@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.noahutz.photobrowser.R
 import com.noahutz.photobrowser.util.ImageLoader
+import com.noahutz.photobrowser.util.doIfFailure
+import com.noahutz.photobrowser.util.doIfSuccess
 import com.noahutz.photobrowser.viewmodel.PhotoListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_list_photo.*
@@ -58,9 +60,16 @@ class PhotoListFragment : Fragment() {
     }
 
     private fun loadPhotoList() {
-        viewModel.getPhotos(albumId).observe(viewLifecycleOwner) { photos ->
-            swipeRefreshLayout.isRefreshing = false
-            adapter.setItems(photos)
+        viewModel.getPhotos(albumId).observe(viewLifecycleOwner) { result ->
+            result.doIfSuccess { photos ->
+                swipeRefreshLayout.isRefreshing = false
+                adapter.setItems(photos)
+            }
+
+            result.doIfFailure { _, throwable ->
+                throwable?.printStackTrace()
+                swipeRefreshLayout.isRefreshing = false
+            }
         }
     }
 }

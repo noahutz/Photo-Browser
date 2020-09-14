@@ -35,8 +35,9 @@ class PhotoBrowserServiceTest {
     fun `get album list should return list greater than 0`() {
         val result = runBlocking { apiService.getAlbums() }
 
-        result.size shouldBeGreaterThan 0
-        result.forEach { item ->
+        val albums = result.body()!!
+        albums.size shouldBeGreaterThan 0
+        albums.forEach { item ->
             item.id shouldNotBe null
             item.title shouldNotBe null
             item.userId shouldNotBe null
@@ -46,16 +47,16 @@ class PhotoBrowserServiceTest {
     @Test
     fun `get photo list for existing id should return list size greater than 0`() {
         val resultAlbums = runBlocking { apiService.getAlbums() }
-        val resultPhotos =
-            runBlocking { apiService.getPhotos(resultAlbums.first().id) }
+        val resultPhotos = runBlocking { apiService.getPhotos(resultAlbums.body()!![0].id) }
 
-        resultPhotos.size shouldBeGreaterThan 0
-        resultPhotos.forEach { item ->
-            item.albumId shouldNotBe null
-            item.id shouldNotBe null
-            item.thumbnailUrl shouldNotBe null
-            item.title shouldNotBe null
-            item.url shouldNotBe null
+        val photos = resultPhotos.body()!!
+        photos.size shouldBeGreaterThan 0
+        photos.forEach { photo ->
+            photo.albumId shouldNotBe null
+            photo.id shouldNotBe null
+            photo.thumbnailUrl shouldNotBe null
+            photo.title shouldNotBe null
+            photo.url shouldNotBe null
         }
     }
 
@@ -63,6 +64,7 @@ class PhotoBrowserServiceTest {
     fun `get photo list for non-existing id should return list size 0`() {
         val resultPhotos = runBlocking { apiService.getPhotos(99999) }
 
-        resultPhotos.size shouldBe 0
+        val photos = resultPhotos.body()!!
+        photos.size shouldBe 0
     }
 }
