@@ -8,6 +8,7 @@
 ## Android Component Libraries
 * Navigation Component
 * Hilt Dependency Injection
+* Room Database
 * Kotlin Extensions for LiveData
 * Arch Core Testing, Coroutine Test
 
