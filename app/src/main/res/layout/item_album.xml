@@ -8,4 +8,4 @@
     android:padding="@dimen/padding_double"
     android:textColor="@android:color/black"
     android:textSize="@dimen/size_text_album_title"
-    tools:text="Album name" />
+    tools:text="@tools:sample/cities" />

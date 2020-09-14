@@ -1,7 +1,6 @@
 package com.noahutz.photobrowser.ui.albums
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,11 +42,14 @@ class AlbumListFragment : Fragment() {
             DividerItemDecoration(context, layoutManager.orientation)
         )
 
+        progressBar.visibility = View.VISIBLE
         viewModel.getAlbums().observe(viewLifecycleOwner) { result ->
             result.doIfSuccess { albums ->
+                progressBar.visibility = View.GONE
                 adapter.setItems(albums)
             }
             result.doIfFailure { errorMessage, throwable ->
+                progressBar.visibility = View.GONE
                 throwable?.printStackTrace()
                 Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
             }
