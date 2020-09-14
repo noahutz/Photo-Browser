@@ -15,7 +15,20 @@ import org.junit.Test
 
 class AlbumListViewModelTest : BaseTest() {
     companion object {
-        private val RESULT_SUCCESS = ResultOf.Success(listOf<Album>())
+        private val RESULT_ALBUMS = ResultOf.Success(
+            listOf(
+                Album(id = 3, title = "GHI", userId = 1),
+                Album(id = 2, title = "DEF", userId = 1),
+                Album(id = 1, title = "ABC", userId = 1)
+            )
+        )
+        private val RESULT_ALBUMS_ALPHABETICAL = ResultOf.Success(
+            listOf(
+                Album(id = 1, title = "ABC", userId = 1),
+                Album(id = 2, title = "DEF", userId = 1),
+                Album(id = 3, title = "GHI", userId = 1)
+            )
+        )
         private val RESULT_FAILURE = ResultOf.Failure("some error message")
     }
 
@@ -24,12 +37,12 @@ class AlbumListViewModelTest : BaseTest() {
     private val viewModel: AlbumListViewModel = AlbumListViewModel(repository)
 
     @Test
-    fun `repository success should return result success`() {
-        coEvery { repository.getAlbums() } returns MutableLiveData(RESULT_SUCCESS)
+    fun `repository success should return result alphabetically`() {
+        coEvery { repository.getAlbums() } returns MutableLiveData(RESULT_ALBUMS)
 
         viewModel.getAlbums().observeForever(observer)
 
-        verify { observer.onChanged(RESULT_SUCCESS) }
+        verify { observer.onChanged(RESULT_ALBUMS_ALPHABETICAL) }
         coVerify { repository.getAlbums() }
     }
 
