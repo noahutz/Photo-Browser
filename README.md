@@ -1,6 +1,7 @@
 # Photo-Browser
 
 ## Architecture (Model - View - ViewModel)
+![Architecture](https://github.com/noahutz/Photo-Browser/blob/master/app/Architecture.png)
 * View - Fragment
 * Model - Repository fetches from API and saves data to DB then returns data from DB
 * ViewModel - exposes stream of data for UI updates. Applies transformations of LiveData e.g. Sorting
