@@ -26,6 +26,7 @@ class PhotoListFragment : Fragment() {
 
     private var albumId: Int = -1
     private val viewModel: PhotoListViewModel by viewModels()
+    private lateinit var adapter: PhotoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +45,21 @@ class PhotoListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val layoutManager = GridLayoutManager(context, GRID_SPAN_COUNT)
-        val adapter = PhotoAdapter(imageLoader)
+        adapter = PhotoAdapter(imageLoader)
         recyclerViewPhotos.layoutManager = layoutManager
         recyclerViewPhotos.adapter = adapter
 
+        swipeRefreshLayout.setOnRefreshListener {
+            loadPhotoList()
+        }
+
+        swipeRefreshLayout.isRefreshing = true
+        loadPhotoList()
+    }
+
+    private fun loadPhotoList() {
         viewModel.getPhotos(albumId).observe(viewLifecycleOwner) { photos ->
+            swipeRefreshLayout.isRefreshing = false
             adapter.setItems(photos)
         }
     }
