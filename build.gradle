@@ -7,7 +7,7 @@ buildscript {
         appcompat_version = "1.2.0"
         material_version = "1.2.1"
         constraintlayout_version = "2.0.1"
-        navigation_version = "2.3.0"
+        navigation_version = "2.3.1"
         swiperefreshlayout_version = "1.1.0"
         retrofit_version = "2.9.0"
         hilt_version = "2.28.3-alpha"
