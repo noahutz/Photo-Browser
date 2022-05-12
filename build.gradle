@@ -17,7 +17,7 @@ buildscript {
         livedata_ktx_version = "2.2.0"
         mockwebserver_version = "4.9.0"
         kluent_version = "1.61"
-        mockk_version = "1.10.0"
+        mockk_version = "1.12.4"
         junit_version = "4.13"
         junit_ext_version = "1.1.2"
         espresso_version = "3.3.0"
